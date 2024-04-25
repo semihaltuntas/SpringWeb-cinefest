@@ -1,4 +1,4 @@
-package be.vdab.cinefest.films;
+package be.vdab.cinefestv.films;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;

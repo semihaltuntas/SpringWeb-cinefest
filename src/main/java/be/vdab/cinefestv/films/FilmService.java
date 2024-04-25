@@ -1,4 +1,4 @@
-package be.vdab.cinefest.films;
+package be.vdab.cinefestv.films;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
