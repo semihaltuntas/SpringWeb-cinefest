@@ -10,7 +10,7 @@ public class FilmController {
     public FilmController(FilmService filmService) {
         this.filmService = filmService;
     }
-    @GetMapping("film/totaalVrijePlaatsen")
+    @GetMapping("films/totaalvrijeplaatsen")
     long totaalVrijePlaatsen(){
         return filmService.findTotaal();
     }
