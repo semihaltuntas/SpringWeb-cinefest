@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,5 +67,14 @@ class FilmControllerTest {
         mockMvc.perform(get("/films/{id}", Long.MAX_VALUE))
                 .andExpect(status().isNotFound());
 
+    }
+
+    @Test
+    void findAllVindtAlleFilms() throws Exception {
+        System.out.println(JdbcTestUtils.countRowsInTable(jdbcClient, FILMS_TABLE));
+        mockMvc.perform(get("/films"))
+                .andExpectAll(status().isOk(),
+                        jsonPath("length()")
+                                .value(JdbcTestUtils.countRowsInTable(jdbcClient, FILMS_TABLE)));
     }
 }

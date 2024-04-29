@@ -1,8 +1,10 @@
 package be.vdab.cinefestv.films;
 
+import jdk.dynalink.linker.LinkerServices;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,5 +22,9 @@ public class FilmService {
 
     Optional<Film> findById(Long id){
         return filmRepository.findById(id);
+    }
+
+    public List<Film> findAll(){
+        return filmRepository.findAll();
     }
 }
