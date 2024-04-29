@@ -35,7 +35,7 @@ class FilmControllerTest {
                 .query(Long.class)
                 .single();
         System.out.println(vrijePlaatsen);
-        mockMvc.perform(get("/film/totaalVrijePlaatsen"))
+        mockMvc.perform(get("/films/totaalvrijeplaatsen"))
                 .andExpectAll(
                         status().isOk(),
                         jsonPath("$").value(vrijePlaatsen));
@@ -57,12 +57,13 @@ class FilmControllerTest {
                 .andExpectAll(
                         status().isOk(),
                         jsonPath("id").value(id),
-                        jsonPath("titel").value("test1"));
+                        jsonPath("titel").value("test1"),
+                        jsonPath("jaar").value(2024));
     }
 
     @Test
-    void findByIdMetEenOnbestaandeIdVindtDeFilm()throws Exception {
-        mockMvc.perform(get("/films/{id}",Long.MAX_VALUE))
+    void findByIdMetEenOnbestaandeIdVindtDeFilm() throws Exception {
+        mockMvc.perform(get("/films/{id}", Long.MAX_VALUE))
                 .andExpect(status().isNotFound());
 
     }
