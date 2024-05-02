@@ -1,9 +1,6 @@
 package be.vdab.cinefestv.films;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Stream;
 
@@ -51,5 +48,11 @@ public class FilmController {
     void deleteById(@PathVariable long id) {
         filmService.delete(id);
         System.out.println("Film is verwijderd id:" + id);
+    }
+
+    @PostMapping("films")
+    long create(@RequestBody NieuweFilm nieuweFilm) {
+        var id = filmService.create(nieuweFilm);
+        return id;
     }
 }

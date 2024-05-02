@@ -14,6 +14,7 @@ byId("zoek").onclick = async function () {
 }
 byId("verwijder").onclick = async function () {
     const zoekIdInput = byId("zoekId");
+    console.log(zoekIdInput.value)
     const response = await fetch(`films/${zoekIdInput.value}`, {method: "DELETE"});
     if (response.ok) {
         verbergFilmEnFouten();
