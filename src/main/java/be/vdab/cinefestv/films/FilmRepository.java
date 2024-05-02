@@ -35,7 +35,8 @@ public class FilmRepository {
                 .query(Film.class)
                 .optional();
     }
-    public List<Film> findAll(){
+
+    public List<Film> findAll() {
         var sql = """
                 select id,titel,jaar,vrijePlaatsen,aankoopprijs
                 from films
@@ -45,7 +46,8 @@ public class FilmRepository {
                 .query(Film.class)
                 .list();
     }
-    public List<Film> findByJaar(int jaar){
+
+    public List<Film> findByJaar(int jaar) {
         var sql = """
                 select id,titel,jaar,vrijePlaatsen,aankoopprijs
                 from films
@@ -56,5 +58,15 @@ public class FilmRepository {
                 .param(jaar)
                 .query(Film.class)
                 .list();
+    }
+
+    void delete(long id) {
+        var sql = """
+                delete from films
+                where id = ?
+                """;
+        jdbcClient.sql(sql)
+                .param(id)
+                .update();
     }
 }

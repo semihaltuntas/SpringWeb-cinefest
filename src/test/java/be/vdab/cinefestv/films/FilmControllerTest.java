@@ -15,6 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.junit.jupiter.api.Assertions.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+
 @SpringBootTest
 @Transactional
 @Sql("/films.sql")
@@ -86,5 +89,14 @@ class FilmControllerTest {
                 .andExpectAll(status().isOk(),
                         jsonPath("length()").value(JdbcTestUtils.countRowsInTableWhere(
                                 jdbcClient, FILMS_TABLE, "jaar = '2024'")));
+    }
+
+    @Test
+    void deleteByIdVindtJuisteFilm() throws Exception {
+        var id = idVanTest1Film();
+        mockMvc.perform(delete("/films/{id}", id))
+                .andExpect(status().isOk());
+        assertThat(JdbcTestUtils.countRowsInTableWhere(
+                jdbcClient, FILMS_TABLE, "id= " + id)).isZero();
     }
 }
