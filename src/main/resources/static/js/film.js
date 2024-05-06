@@ -24,6 +24,30 @@ byId("verwijder").onclick = async function () {
         toon("storing");
     }
 }
+byId("bewaar").onclick = async function () {
+    const nieuweTitelInput = byId("nieuweTitel");
+    if (nieuweTitelInput.checkValidity()) {
+        verberg("nieuweTitelFout")
+        updateTitel(nieuweTitelInput.value);
+    } else {
+        toon("nieuweTitelFout")
+        nieuweTitelInput.focus();
+    }
+}
+
+async function updateTitel(nieuweTitel) {
+    const response = await fetch(`films/${byId("zoekId").value}/titel`,
+        {
+            method: "PATCH",
+            headers: {'Content-Type': "text/plain"},
+            body: nieuweTitel
+        });
+    if (response.ok) {
+        setText("titel", nieuweTitel)
+    } else {
+        toon("storing");
+    }
+}
 
 function verbergFilmEnFouten() {
     verberg("film");

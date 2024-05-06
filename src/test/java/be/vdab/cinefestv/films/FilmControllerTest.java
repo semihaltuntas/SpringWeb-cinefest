@@ -19,12 +19,11 @@ import java.nio.file.Path;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.junit.jupiter.api.Assertions.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 
 @SpringBootTest
 @Transactional
@@ -115,7 +114,7 @@ class FilmControllerTest {
         var responseBody = mockMvc.perform(post("/films")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonData))
-                .andExpectAll(status().isOk())
+                .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println("id van responseBody-> " + responseBody);
         assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcClient, FILMS_TABLE,
@@ -130,6 +129,34 @@ class FilmControllerTest {
         mockMvc.perform(post("/films")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonData))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void patchWijzigtTitel() throws Exception {
+        var id = idVanTest1Film();
+        mockMvc.perform(patch("/films/{id}/titel", id)
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content("Titanic"))
+                .andExpect(status().isOk());
+        assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcClient, FILMS_TABLE,
+                "titel ='Titanic' and id=" + id)).isOne();
+    }
+
+    @Test
+    void patchVanOnbestaandeFilmMislukt() throws Exception {
+        mockMvc.perform(patch("/films/{id}/titel", Long.MAX_VALUE)
+                .contentType(MediaType.TEXT_PLAIN)
+                .content("Titanic")).andExpect(status().isNotFound());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", " "})
+    void patchMetVerkeerdeTitelMislukt(String verkeerdeTitel) throws Exception {
+        var id = idVanTest1Film();
+        mockMvc.perform(patch("/films/{id}/titel", id)
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content(verkeerdeTitel))
                 .andExpect(status().isBadRequest());
     }
 }
