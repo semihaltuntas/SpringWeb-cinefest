@@ -1,4 +1,4 @@
-package be.vdab.cinefestv.films;
+package be.vdab.cinefestv.reservaties;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
