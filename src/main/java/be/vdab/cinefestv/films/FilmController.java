@@ -24,7 +24,6 @@ public class FilmController {
             this(film.getId(), film.getTitel(), film.getJaar(), film.getVrijePlaatsen());
         }
     }
-
     @GetMapping("totaalvrijeplaatsen")
     long totaalVrijePlaatsen() {
         return filmService.findTotaal();
