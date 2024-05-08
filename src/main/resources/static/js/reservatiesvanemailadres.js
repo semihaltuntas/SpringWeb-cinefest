@@ -27,7 +27,9 @@ async function findByEmailAdres(emailAdres) {
             tr.insertCell().innerText = reservatie.id;
             tr.insertCell().innerText = reservatie.titel;
             tr.insertCell().innerText = reservatie.plaatsen;
-            tr.insertCell().innerText = new Date(reservatie.besteld).toLocaleString("nl-BE");
+            tr.insertCell().innerText =
+                new Date(reservatie.besteld).toLocaleString("nl-BE");
+
         }
     } else {
         toon("storing");

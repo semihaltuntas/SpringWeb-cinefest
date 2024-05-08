@@ -27,7 +27,7 @@ public class ReservatieRepository {
         return keyHolder.getKey().longValue();
     }
 
-    List<ReservatieMetFilm> findByEmail(String emailAdres) {
+    public List<ReservatieMetFilm> findByEmail(String emailAdres) {
         var sql = """
                 select reservaties.id,titel,emailAdres,plaatsen,besteld
                 from reservaties inner join films on reservaties.filmId = films.id
